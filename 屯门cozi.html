@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>悦品度假酒店 - 屯门数据看板 by iRent</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="icon" type="image/png" href="https://www.irent.hk/wp-content/uploads/2023/10/cropped-logo-32x32.png">
+    <style>
+        :root {
+            --primary-color: #71C257;
+            --secondary-1: #FFECAB;
+            --secondary-2: #3989FC;
+            --accent-1: #F55501;
+            --accent-2: #B8F02B;
+        }
+
+        body { 
+            font-family: "Microsoft YaHei", sans-serif; 
+            padding: 20px; 
+            background-color: #f5f7fa; 
+        }
+        .dashboard-container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .brand-header {
+            text-align: center;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .irent-logo {
+            width: 120px;
+            height: auto;
+        }
+        .powered-by {
+            color: #666;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        .card { 
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border: 1px solid var(--primary-color);
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        h1, h2 { 
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-2);
+            padding-bottom: 10px;
+        }
+        .financial-table {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: right;
+            border-bottom: 1px solid #ddd;
+        }
+        th:first-child, td:first-child {
+            text-align: left;
+        }
+        .category-header {
+            background-color: var(--secondary-1);
+            font-weight: bold;
+        }
+        .highlight-green { 
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        .highlight-blue { 
+            color: var(--secondary-2);
+            font-weight: bold;
+        }
+        .percentage {
+            font-weight: bold;
+            color: var(--accent-1);
+        }
+        .reference-section { 
+            background: var(--secondary-1);
+            border-left: 4px solid var(--secondary-2);
+        }
+        .copyright {
+            text-align: center;
+            color: #666;
+            margin-top: 40px;
+            padding: 15px;
+            border-top: 1px solid #ddd;
+        }
+        .irent-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.3s;
+        }
+        .irent-link:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+<!-- 品牌头部 -->
+<div class="brand-header">
+    <div>
+        <h1>悦品度假酒店 - 屯门数据预测分析</h1>
+        <div class="powered-by">
+            <a href="https://www.irent.hk/" 
+               class="irent-link" 
+               target="_blank" 
+               rel="noopener">
+                iRent极家
+            </a>
+        </div>
+    </div>
+</div>
+        <!-- 新增的客房配置表 -->
+        <div class="card">
+            <h2>🏠 客房配置明细</h2>
+            <div class="financial-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>房间编号</th>
+                            <th>面积(sqf)</th>
+                            <th>床位数</th>
+                            <th>房间类型</th>
+                            <th>数量</th>
+                            <th>价格</th>
+                            <th>均价</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>A</td>
+                            <td>160</td>
+                            <td>1</td>
+                            <td>大床房</td>
+                            <td>117</td>
+                            <td>12,000</td>
+                            <td>单人间</td>
+                        </tr>
+                        <tr>
+                            <td>B</td>
+                            <td>180</td>
+                            <td>1</td>
+                            <td>高级大床房</td>
+                            <td>161</td>
+                            <td>13,000</td>
+                            <td>12,579</td>
+                        </tr>
+                        <tr>
+                            <td>C</td>
+                            <td>240</td>
+                            <td>2</td>
+                            <td>普通双人间</td>
+                            <td>40</td>
+                            <td>16,000</td>
+                            <td>双人间</td>
+                        </tr>
+                        <tr>
+                            <td>D</td>
+                            <td>300</td>
+                            <td>2</td>
+                            <td>高级双人间</td>
+                            <td>112</td>
+                            <td>20,000</td>
+                            <td>18,947</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 关键指标 -->
+        <div class="grid-container">
+            <div class="card">
+                <h2>🏨 关键指标</h2>
+                <p>总房间数：<span class="highlight-blue">430间</span></p>
+                <p>平均入住率：<span class="highlight-blue">90%</span></p>
+                <p>预计每年收入：<span class="highlight-blue">6,887.1万元</span></p>
+            </div>
+            <div class="card">
+                <canvas id="roomDistribution"></canvas>
+            </div>
+        </div>
+
+        <!-- 竞品参考 -->
+        <div class="card reference-section">
+            <h2>🔍 周边酒店参考价</h2>
+            <h3>香港屯门贝尔特酒店 Penta Hotels 
+                <a href="https://www.pentahotels.com/hk/hotels/zhou/hong-kong-tuen-mun" 
+                   class="irent-link" 
+                   target="_blank">
+                    (官网链接)
+                </a>
+            </h3>
+            <p>香港特别行政区. 新界. 屯门震寰路6号</p>
+            <p>房间数298</p>
+            <div class="financial-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>房型</th>
+                            <th>面积</th>
+                            <th>每日租金</th>
+                            <th>六个月以内加收</th>
+                            <th>实际每日租金</th>
+                            <th>月租 (30天)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>22平（六个月以上）</td><td>22平</td><td>450</td><td>0</td><td>450</td><td>13,500</td></tr>
+                        <tr><td>33平（六个月以上）</td><td>33平</td><td>650</td><td>0</td><td>650</td><td>19,500</td></tr>
+                        <tr><td>22平（六个月以内）</td><td>22平</td><td>450</td><td>50</td><td>500</td><td>15,000</td></tr>
+                        <tr><td>33平（六个月以内）</td><td>33平</td><td>650</td><td>50</td><td>700</td><td>21,000</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+           <!-- 五年财务预测 -->
+        <div class="card">
+            <h2>📊 五年财务预测</h2>
+            <div class="financial-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>项目</th>
+                            <th>2026</th>
+                            <th>2027</th>
+                            <th>2028</th>
+                            <th>2029</th>
+                            <th>2030</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="category-header">
+                            <td>运营收入</td>
+                            <td colspan="5"></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left: 30px;">租金收入</td>
+                            <td>68,871,600</td>
+                            <td>70,937,748</td>
+                            <td>73,065,880</td>
+                            <td>75,257,857</td>
+                            <td>77,515,593</td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left: 30px;">其他收入</td>
+                            <td>5,346,000</td>
+                            <td>5,506,380</td>
+                            <td>5,671,571</td>
+                            <td>5,841,719</td>
+                            <td>6,016,970</td>
+                        </tr>
+                        <tr class="highlight-blue">
+                            <td>总收入</td>
+                            <td>74,217,600</td>
+                            <td>76,444,128</td>
+                            <td>78,737,451</td>
+                            <td>81,099,576</td>
+                            <td>83,532,563</td>
+                        </tr>
+
+                        <tr class="category-header">
+                            <td>运营支出</td>
+                            <td colspan="5"></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left: 30px;">日常运营成本</td>
+                            <td>13,615,510</td>
+                            <td>14,023,975</td>
+                            <td>14,444,694</td>
+                            <td>14,914,756</td>
+                            <td>15,324,377</td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left: 30px;">政府租金及税费</td>
+                            <td>1,702,464</td>
+                            <td>1,719,489</td>
+                            <td>1,736,684</td>
+                            <td>1,754,050</td>
+                            <td>1,771,591</td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left: 30px;">物业保险费用</td>
+                            <td>170,000</td>
+                            <td>171,700</td>
+                            <td>173,417</td>
+                            <td>175,151</td>
+                            <td>176,903</td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left: 30px;">管理费</td>
+                            <td>7,744,947</td>
+                            <td>7,977,296</td>
+                            <td>8,216,614</td>
+                            <td>8,458,420</td>
+                            <td>8,717,006</td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left: 30px;">FF&E</td>
+                            <td>909,031</td>
+                            <td>936,302</td>
+                            <td>964,391</td>
+                            <td>992,772</td>
+                            <td>1,023,123</td>
+                        </tr>
+                        <tr class="highlight-blue">
+                            <td>总支出</td>
+                            <td>24,141,952</td>
+                            <td>24,828,762</td>
+                            <td>25,535,801</td>
+                            <td>26,295,149</td>
+                            <td>27,013,000</td>
+                        </tr>
+
+                        <tr class="highlight-green">
+                            <td>净营业收益</td>
+                            <td>50,075,648</td>
+                            <td>51,615,366</td>
+                            <td>53,201,650</td>
+                            <td>54,804,427</td>
+                            <td>56,519,563</td>
+                        </tr>
+                        <tr>
+                            <td>净营业收益利润率</td>
+                            <td class="percentage">67.47%</td>
+                            <td class="percentage">67.52%</td>
+                            <td class="percentage">67.57%</td>
+                            <td class="percentage">67.58%</td>
+                            <td class="percentage">67.66%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 版权信息 -->
+        <div class="copyright">
+            © 2024 iRent 香港租房平台 - 
+            <a href="https://www.irent.hk/" 
+               class="irent-link" 
+               target="_blank" 
+               rel="noopener">
+                www.irent.hk
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // 图表全局配置
+        Chart.defaults.color = '#666';
+        Chart.defaults.borderColor = '#eee';
+
+        // 房间分布图表
+        new Chart(document.getElementById('roomDistribution'), {
+            type: 'doughnut',
+            data: {
+                labels: ['A型 117间', 'B型 161间', 'C型 40间', 'D型 112间'],
+                datasets: [{
+                    data: [117, 161, 40, 112],
+                    backgroundColor: [
+                        'rgba(113,194,87,0.8)',
+                        'rgba(255,236,171,0.8)',
+                        'rgba(57,137,252,0.8)',
+                        'rgba(245,85,1,0.8)'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { padding: 20 }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
